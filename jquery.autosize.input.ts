@@ -1,6 +1,5 @@
 /// <reference path="jquery.d.ts" />
 
-
 interface JQuery 
 {
 	autosizeInput(): JQuery;
