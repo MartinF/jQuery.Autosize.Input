@@ -36,10 +36,12 @@ module Plugins
 			});
 			$("body").append(this._mirror);
 			
-			// Bind event
-			// keydown / blur / update / change / paste ? click / focus ?
-			// IE 9 doesnt trigger input on backspace or delete - so keydown is needed
-			this._input.bind("keydown input", (e) => { this.update(); });
+			// Bind events - change update paste click mousedown mouseup focus blur
+			// IE 9 need keydown to keep updating while deleting (keeping backspace in - else it will first update when backspace is released)
+			// IE 9 need keyup incase text is selected and backspace/deleted is hit - keydown is to early
+			// How to fix problem with hitting the delete "X" in the box - but not updating!? mouseup is apparently to early
+				// Could bind separatly and set timer
+			this._input.bind("keydown keyup input", (e) => { this.update(); });
 
 			// Update
 			() => { this.update(); } ();
@@ -56,7 +58,7 @@ module Plugins
 			return "autosizeInputInstance";
 		}
 
-        public update() 
+        public update()
 		{
         	var value = this._input.val();
 

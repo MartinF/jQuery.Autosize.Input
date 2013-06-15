@@ -19,7 +19,7 @@ var Plugins;
                 _this._mirror[0].style[val] = _this._input.css(val);
             });
             $("body").append(this._mirror);
-            this._input.bind("keydown input", function (e) {
+            this._input.bind("keydown keyup input", function (e) {
                 _this.update();
             });
             (function () {
