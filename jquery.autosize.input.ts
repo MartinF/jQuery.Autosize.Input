@@ -75,7 +75,7 @@ module Plugins
 			}
 
 			// Update mirror
-			this._mirror.text(value);
+			this._mirror.text(value || "");
 
 			// Update the width
 			var newWidth = this._mirror.width() + this._options.space;
