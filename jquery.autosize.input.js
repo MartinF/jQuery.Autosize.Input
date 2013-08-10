@@ -3,7 +3,6 @@ var Plugins;
     var AutosizeInput = (function () {
         function AutosizeInput(input, options) {
             var _this = this;
-            this.i = 0;
             this._input = $(input);
             this._options = options;
 

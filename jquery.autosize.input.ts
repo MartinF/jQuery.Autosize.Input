@@ -58,7 +58,6 @@ module Plugins
 			return "autosizeInputInstance";
 		}
 		
-		public i: number = 0;
         public update()
 		{
         	var value = this._input.val();
