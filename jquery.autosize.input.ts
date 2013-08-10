@@ -7,12 +7,12 @@ interface JQuery
 
 module Plugins 
 {
-	interface IAutosizeInput
+	export interface IAutosizeInput
 	{
 		update(): void;
 	}
 
-	interface IAutosizeInputOptions
+	export interface IAutosizeInputOptions
 	{
 		space: number;
 	}
@@ -57,15 +57,16 @@ module Plugins
 			// Use camelcase because .data()['autosize-input-instance'] will not work
 			return "autosizeInputInstance";
 		}
-
+		
+		public i: number = 0;
         public update()
 		{
         	var value = this._input.val();
-
+						
 			if (!value)
 			{
 				// If no value, use placeholder if set
-				value = this._input.attr("placeholder");
+				value = this._input.attr("placeholder") || "";
 			}
 
 			if (value === this._mirror.text())
@@ -76,9 +77,9 @@ module Plugins
 
 			// Update mirror
 			this._mirror.text(value);
-
-			// Update the width
+			// Calculate the width
 			var newWidth = this._mirror.width() + this._options.space;
+			// Update the width
 			this._input.width(newWidth);
 		}
 	}
@@ -87,7 +88,7 @@ module Plugins
 	{
 		private _space: number;
 
-		constructor(space?: number = 30)
+		constructor(space: number = 30)
 		{
 			this._space = space;
 		}
