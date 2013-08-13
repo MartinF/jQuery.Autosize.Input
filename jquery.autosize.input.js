@@ -13,7 +13,7 @@ var Plugins;
             });
             $("body").append(this._mirror);
 
-            this._input.bind("keydown keyup input", function (e) {
+            this._input.on("keydown keyup input propertychange change", function (e) {
                 _this.update();
             });
 

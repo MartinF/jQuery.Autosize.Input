@@ -40,8 +40,9 @@ module Plugins
 			// IE 9 need keydown to keep updating while deleting (keeping backspace in - else it will first update when backspace is released)
 			// IE 9 need keyup incase text is selected and backspace/deleted is hit - keydown is to early
 			// How to fix problem with hitting the delete "X" in the box - but not updating!? mouseup is apparently to early
-				// Could bind separatly and set timer
-			this._input.bind("keydown keyup input", (e) => { this.update(); });
+			// Could bind separatly and set timer
+			// Add so it automatically updates if value of input is changed http://stackoverflow.com/a/1848414/58524
+			this._input.on("keydown keyup input propertychange change", (e) => { this.update(); });
 
 			// Update
 			() => { this.update(); } ();
