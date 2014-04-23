@@ -45,7 +45,7 @@ module Plugins
 			this._input.on("keydown keyup input propertychange change", (e) => { this.update(); });
 
 			// Update
-			() => { this.update(); } ();
+			(() => { this.update(); }) ();
 		}
 
 		public get options(): IAutosizeInputOptions
@@ -131,7 +131,7 @@ module Plugins
 					if (options == undefined)
 					{
 						// Try get options from attribute
-						var options = $this.data(pluginDataAttributeName);
+						options = $this.data(pluginDataAttributeName);
 
 						if (!(options && typeof options == 'object')) 
 						{

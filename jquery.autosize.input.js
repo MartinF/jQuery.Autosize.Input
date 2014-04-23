@@ -1,3 +1,4 @@
+
 var Plugins;
 (function (Plugins) {
     var AutosizeInput = (function () {
@@ -91,7 +92,7 @@ var Plugins;
 
                 if (!$this.data(Plugins.AutosizeInput.instanceKey)) {
                     if (options == undefined) {
-                        var options = $this.data(pluginDataAttributeName);
+                        options = $this.data(pluginDataAttributeName);
 
                         if (!(options && typeof options == 'object')) {
                             options = new AutosizeInputOptions();
