@@ -1,7 +1,7 @@
 
 var Plugins;
 (function (Plugins) {
-    var AutosizeInput = (function () {
+    var AutosizeInput = (function ($) {
         function AutosizeInput(input, options) {
             var _this = this;
             this._input = $(input);
@@ -56,7 +56,7 @@ var Plugins;
             this._input.width(newWidth);
         };
         return AutosizeInput;
-    })();
+    })(jQuery);
     Plugins.AutosizeInput = AutosizeInput;
 
     var AutosizeInputOptions = (function () {
