@@ -80,7 +80,7 @@ var Plugins;
 
     (function ($) {
         var pluginDataAttributeName = "autosize-input";
-        var validTypes = ["text", "password", "search", "url", "tel", "email"];
+        var validTypes = ["text", "password", "search", "url", "tel", "email","number"];
 
         $.fn.autosizeInput = function (options) {
             return this.each(function () {
