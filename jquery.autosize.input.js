@@ -4,7 +4,7 @@ var Plugins;
 		function AutosizeInput(input, options) {
 			var _this = this;
 			this._input = $(input);
-			this._options = options;
+			this._options = $.extend({}, AutosizeInput.getDefaultOptions(), options);
 
 			// Init mirror
 			this._mirror = $('<span style="position:absolute; top:-999px; left:0; white-space:pre;"/>');
@@ -30,22 +30,9 @@ var Plugins;
 				_this.update();
 			})();
 		}
-		Object.defineProperty(AutosizeInput.prototype, "options", {
-			get: function () {
-				return this._options;
-			},
-			enumerable: true,
-			configurable: true
-		});
-
-		Object.defineProperty(AutosizeInput, "instanceKey", {
-			get: function () {
-				// Use camelcase because .data()['autosize-input-instance'] will not work
-				return "autosizeInputInstance";
-			},
-			enumerable: true,
-			configurable: true
-		});
+		AutosizeInput.prototype.getOptions = function () {
+			return this._options;
+		};
 
 		AutosizeInput.prototype.update = function () {
 			var value = this._input.val();
@@ -69,6 +56,16 @@ var Plugins;
 			// Update the width
 			this._input.width(newWidth);
 		};
+
+		AutosizeInput.getDefaultOptions = function () {
+			return this._defaultOptions;
+		};
+
+		AutosizeInput.getInstanceKey = function () {
+			// Use camelcase because .data()['autosize-input-instance'] will not work
+			return "autosizeInputInstance";
+		};
+		AutosizeInput._defaultOptions = new AutosizeInputOptions();
 		return AutosizeInput;
 	})();
 	Plugins.AutosizeInput = AutosizeInput;
@@ -76,22 +73,13 @@ var Plugins;
 	var AutosizeInputOptions = (function () {
 		function AutosizeInputOptions(space) {
 			if (typeof space === "undefined") { space = 30; }
-			this._space = space;
+			this.space = space;
 		}
-		Object.defineProperty(AutosizeInputOptions.prototype, "space", {
-			get: function () {
-				return this._space;
-			},
-			set: function (value) {
-				this._space = value;
-			},
-			enumerable: true,
-			configurable: true
-		});
 		return AutosizeInputOptions;
 	})();
 	Plugins.AutosizeInputOptions = AutosizeInputOptions;
 
+	// jQuery Plugin
 	(function ($) {
 		var pluginDataAttributeName = "autosize-input";
 		var validTypes = ["text", "password", "search", "url", "tel", "email", "number"];
@@ -100,7 +88,7 @@ var Plugins;
 		$.fn.autosizeInput = function (options) {
 			return this.each(function () {
 				// Make sure it is only applied to input elements of valid type
-				// Let it be the responsibility of the programmer to only select and apply to valid elements?
+				// Or let it be the responsibility of the programmer to only select and apply to valid elements?
 				if (!(this.tagName == "INPUT" && $.inArray(this.type, validTypes) > -1)) {
 					// Skip - if not input and of valid type
 					return;
@@ -108,20 +96,15 @@ var Plugins;
 
 				var $this = $(this);
 
-				if (!$this.data(Plugins.AutosizeInput.instanceKey)) {
+				if (!$this.data(Plugins.AutosizeInput.getInstanceKey())) {
 					// If instance not already created and attached
 					if (options == undefined) {
 						// Try get options from attribute
 						options = $this.data(pluginDataAttributeName);
-
-						if (!(options && typeof options == 'object')) {
-							// If not object set to default options
-							options = new AutosizeInputOptions();
-						}
 					}
 
 					// Create and attach instance
-					$this.data(Plugins.AutosizeInput.instanceKey, new Plugins.AutosizeInput(this, options));
+					$this.data(Plugins.AutosizeInput.getInstanceKey(), new Plugins.AutosizeInput(this, options));
 				}
 			});
 		};
@@ -129,8 +112,6 @@ var Plugins;
 		// On Document Ready
 		$(function () {
 			// Instantiate for all with data-provide=autosize-input attribute
-			// Could limit by attribute here instead of having check in plugin
-			// input[type="text"], input[type="password"], input[type="search"], input[type="url"], input[type="tel"], input[type="email"]
 			$("input[data-" + pluginDataAttributeName + "]").autosizeInput();
 		});
 		// Alternative to use On Document Ready and creating the instance immediately
