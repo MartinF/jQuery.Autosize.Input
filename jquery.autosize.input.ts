@@ -14,10 +14,15 @@ module Plugins {
 		space: number;
 	}
 
+	export class AutosizeInputOptions implements IAutosizeInputOptions {
+		constructor(public space: number = 30) { }
+	}
+
 	export class AutosizeInput implements IAutosizeInput {
 		private _input: JQuery;
 		private _mirror: JQuery;
 		private _options: IAutosizeInputOptions;
+		private static _defaultOptions: IAutosizeInputOptions = new AutosizeInputOptions();
 
 		constructor(input: HTMLElement, options?: IAutosizeInputOptions) {
 			this._input = $(input);
@@ -48,12 +53,7 @@ module Plugins {
 		}
 
 		public update() {
-			var value = this._input.val();
-
-			if (!value) {
-				// If no value, use placeholder if set
-				value = this._input.attr("placeholder") || "";
-			}
+			var value = this._input.val() || "";
 
 			if (value === this._mirror.text()) {
 				// Nothing have changed - skip
@@ -68,7 +68,6 @@ module Plugins {
 			this._input.width(newWidth);
 		}
 
-		private static _defaultOptions: IAutosizeInputOptions = new AutosizeInputOptions();
 		public static getDefaultOptions(): IAutosizeInputOptions {
 			return this._defaultOptions;
 		}
@@ -77,10 +76,6 @@ module Plugins {
 			// Use camelcase because .data()['autosize-input-instance'] will not work
 			return "autosizeInputInstance";
 		}
-	}
-
-	export class AutosizeInputOptions implements IAutosizeInputOptions {
-		constructor(public space: number = 30) { }
 	}
 
 	// jQuery Plugin
