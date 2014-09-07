@@ -44,7 +44,7 @@ var Plugins;
         };
 
         AutosizeInput.prototype.update = function () {
-            var value = this._input.val() || "";
+            var value = this._input.val() || this._input.attr('placeholder');
 
             if (value === this._mirror.text()) {
                 // Nothing have changed - skip
