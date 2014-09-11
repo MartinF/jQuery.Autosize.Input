@@ -6,3 +6,9 @@ You can see a live example here: http://jsfiddle.net/mJMpw/617/
 - Use css min/max-width to limit the size.
 - Use css "transition: width 0.3s;" etc. if you want a nice animation when the width is changed.
 - Have fun! :)
+
+Options
+-------
+
+* min: Minimum size for field (default: 0)
+* max: Maximum size for field (default: 9999999999)

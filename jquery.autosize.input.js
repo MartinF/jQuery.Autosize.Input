@@ -1,9 +1,18 @@
 var Plugins;
 (function (Plugins) {
     var AutosizeInputOptions = (function () {
-        function AutosizeInputOptions(space) {
-            if (typeof space === "undefined") { space = 30; }
-            this.space = space;
+        function AutosizeInputOptions(opts) {
+            var defaults = {
+              space: 30,
+              min: 0,
+              max: 9999999999
+            }
+
+            if (typeof opts === "undefined") { opts = defaults; }
+
+            this.space = opts['space'];
+            this.max = opts['max'];
+            this.min = opts['min'];
         }
         return AutosizeInputOptions;
     })();
@@ -58,7 +67,9 @@ var Plugins;
             var newWidth = this._mirror.width() + this._options.space;
 
             // Update the width
-            this._input.width(newWidth);
+            if (this._options.max > newWidth && this._options.min < newWidth) {
+              this._input.width(newWidth);
+            }
         };
 
         AutosizeInput.getDefaultOptions = function () {
