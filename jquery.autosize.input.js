@@ -24,6 +24,10 @@ var Plugins;
             });
             $("body").append(this._mirror);
 
+            // Save placeholder text for width calculation if previously populated input is emptied.
+            // we want to prevent the placeholder text from being truncated.
+            this._placeHolder = this._input.attr('placeholder') || "";
+
             // Bind events - change update paste click mousedown mouseup focus blur
             // IE 9 need keydown to keep updating while deleting (keeping backspace in - else it will first update when backspace is released)
             // IE 9 need keyup incase text is selected and backspace/deleted is hit - keydown is to early
@@ -51,8 +55,8 @@ var Plugins;
                 return;
             }
 
-            // Update mirror
-            this._mirror.text(value);
+            // Update mirror - use placeholder text if value is empty
+            this._mirror.text(value == "" ? this._placeHolder : value);
 
             // Calculate the width
             var newWidth = this._mirror.width() + this._options.space;
