@@ -13,6 +13,7 @@ var Plugins;
         function AutosizeInput(input, options) {
             var _this = this;
             this._input = $(input);
+            this._placeholder = $(input).attr("placeholder");
             this._options = $.extend({}, AutosizeInput.getDefaultOptions(), options);
 
             // Init mirror
@@ -23,6 +24,10 @@ var Plugins;
                 _this._mirror[0].style[val] = _this._input.css(val);
             });
             $("body").append(this._mirror);
+
+            this._mirror.text(this._placeholder)
+            this._placeholder_width = this._mirror.width()
+            this._mirror.text("")
 
             // Bind events - change update paste click mousedown mouseup focus blur
             // IE 9 need keydown to keep updating while deleting (keeping backspace in - else it will first update when backspace is released)
@@ -46,7 +51,7 @@ var Plugins;
         AutosizeInput.prototype.update = function () {
             var value = this._input.val() || "";
 
-            if (value === this._mirror.text()) {
+            if (value === this._mirror.text() && value !== 0) {
                 // Nothing have changed - skip
                 return;
             }
@@ -56,6 +61,11 @@ var Plugins;
 
             // Calculate the width
             var newWidth = this._mirror.width() + this._options.space;
+
+            // Add length of placeholder if value is 0
+            if (value.length == 0) {
+                newWidth += this._placeholder_width;
+            }
 
             // Update the width
             this._input.width(newWidth);
@@ -112,7 +122,7 @@ var Plugins;
         // Alternative to use On Document Ready and creating the instance immediately
         //$(document).on('focus.autosize-input', 'input[data-autosize-input]', function (e)
         //{
-        //	$(this).autosizeInput();
+        //  $(this).autosizeInput();
         //});
     })(jQuery);
 })(Plugins || (Plugins = {}));
