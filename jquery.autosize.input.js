@@ -25,9 +25,9 @@ var Plugins;
             });
             $("body").append(this._mirror);
 
-            this._mirror.text(this._placeholder)
-            this._placeholder_width = this._mirror.width()
-            this._mirror.text("")
+            this._mirror.text(this._placeholder);
+            this._placeholder_width = this._mirror.width();
+            this._mirror.text("");
 
             // Bind events - change update paste click mousedown mouseup focus blur
             // IE 9 need keydown to keep updating while deleting (keeping backspace in - else it will first update when backspace is released)
@@ -51,7 +51,7 @@ var Plugins;
         AutosizeInput.prototype.update = function () {
             var value = this._input.val() || "";
 
-            if (value === this._mirror.text() && value !== 0) {
+            if (value === this._mirror.text() && value != 0) {
                 // Nothing have changed - skip
                 return;
             }
