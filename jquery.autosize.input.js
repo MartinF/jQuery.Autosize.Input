@@ -51,7 +51,7 @@ var Plugins;
         AutosizeInput.prototype.update = function () {
             var value = this._input.val() || "";
 
-            if (value === this._mirror.text() && value != 0) {
+            if (value === this._mirror.text() && this._placeholder == "") {
                 // Nothing have changed - skip
                 return;
             }
