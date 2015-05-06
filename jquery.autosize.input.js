@@ -4,7 +4,8 @@
     define(["jquery.autosize.input"], factory);
   } else if (typeof exports !== 'undefined') {
     // CommonJS support
-    module.exports = factory;
+    var jQuery = require('jquery');
+    module.exports = factory(jQuery);
   } else {
     // Non-modular execution
     factory(jQuery);
