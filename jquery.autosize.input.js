@@ -29,6 +29,10 @@
                 this._input = $(input);
                 this._options = $.extend({}, AutosizeInput.getDefaultOptions(), options);
 
+                this._updateHandler = function(e){
++                _this.update();
++               };
+
                 // Init mirror
                 this._mirror = $('<span style="position:absolute; top:-999px; left:0; white-space:pre;"/>');
 
@@ -44,18 +48,22 @@
                 // How to fix problem with hitting the delete "X" in the box - but not updating!? mouseup is apparently to early
                 // Could bind separatly and set timer
                 // Add so it automatically updates if value of input is changed http://stackoverflow.com/a/1848414/58524
-                this._input.on("keydown keyup input propertychange change", function (e) {
-                    _this.update();
-                });
+                this._input.on("keydown keyup input propertychange change", this._updateHandler);
 
                 // Update
                 (function () {
                     _this.update();
                 })();
-            }
-            AutosizeInput.prototype.getOptions = function () {
-                return this._options;
             };
+
+            AutosizeInput.prototype.getOptions = function () {
+              return this._options;
+            };
+
+            AutosizeInput.prototype.destroy = function() {
++             this._mirror.remove();
++             this._input.off("keydown keyup input propertychange change", null, this._updateHandler);
++           };
 
             AutosizeInput.prototype.update = function () {
                 var value = this._input.val() || "";
@@ -92,9 +100,15 @@
         (function ($) {
             var pluginDataAttributeName = "autosize-input";
             var validTypes = ["text", "password", "search", "url", "tel", "email", "number"];
+            var methods = {
++             destroy : function() {
++               var $this = $(this);
++               $this.data(Plugins.AutosizeInput.getInstanceKey()).destroy()
++             }
++           };
 
             // jQuery Plugin
-            $.fn.autosizeInput = function (options) {
+            $.fn.autosizeInput = function (optionsAndMethods) {
                 return this.each(function () {
                     // Make sure it is only applied to input elements of valid type
                     // Or let it be the responsibility of the programmer to only select and apply to valid elements?
@@ -104,6 +118,14 @@
                     }
 
                     var $this = $(this);
+
+                    if ( options == undefined ) {
++                     if (methods[optionsAndMethods]){
++                       var method = optionsAndMethods;
++                     } else {
++                       var options = optionsAndMethods;
++                     }
++                   }
 
                     if (!$this.data(Plugins.AutosizeInput.getInstanceKey())) {
                         // If instance not already created and attached
@@ -115,6 +137,10 @@
                         // Create and attach instance
                         $this.data(Plugins.AutosizeInput.getInstanceKey(), new Plugins.AutosizeInput(this, options));
                     }
+
+                    if ( method !=  undefined) {
++                     return methods[ method ].apply( this, Array.prototype.slice.call( arguments, 1 ));
++                   }
                 });
             };
 
