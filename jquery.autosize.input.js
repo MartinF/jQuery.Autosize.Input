@@ -44,7 +44,7 @@
                 // How to fix problem with hitting the delete "X" in the box - but not updating!? mouseup is apparently to early
                 // Could bind separatly and set timer
                 // Add so it automatically updates if value of input is changed http://stackoverflow.com/a/1848414/58524
-                this._input.on("keydown keyup input propertychange change", _this.update);
+                this._input.on("keydown keyup input propertychange change", _this.update.bind(_this));
 
                 // Update
                 _this.update();
@@ -56,7 +56,7 @@
 
             AutosizeInput.prototype.destroy = function() {
               this._mirror.remove();
-              this._input.off("keydown keyup input propertychange change", null, this.update);
+              this._input.off("keydown keyup input propertychange change", null, this.update.bind(this));
             };
 
             AutosizeInput.prototype.update = function () {
