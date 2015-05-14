@@ -1,0 +1,21 @@
+{
+  "name": "jquery.autosize.input",
+  "version": "1.0.0",
+  "description": "A jQuery plugin which automatically resizes the width of input fields according to the content, while typing",
+  "main": "jquery.autosize.input.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MartinF/jQuery.Autosize.Input"
+  },
+  "keywords": [
+    "jquery",
+    "autosize",
+    "input"
+  ],
+  "author": "Martin From",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MartinF/jQuery.Autosize.Input/issues"
+  },
+  "homepage": "https://github.com/MartinF/jQuery.Autosize.Input"
+}
